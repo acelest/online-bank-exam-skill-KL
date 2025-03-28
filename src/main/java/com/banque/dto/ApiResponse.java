@@ -5,15 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Classe générique pour formater les réponses API
- * 
- * @param <T> le type de données retournées
+ * Classe pour formater les réponses API de manière uniforme
+ * @param <T> Type de données retournées
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponse<T> {
-    
     private String statut;
     private String message;
     private T data;
