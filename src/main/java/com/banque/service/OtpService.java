@@ -5,10 +5,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,27 +17,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OtpService {
 
-    private final JavaMailSender emailSender;
-    
-    // Map pour stocker les OTPs (en production, utilisez une base de données)
-    // La clé est l'email, la valeur contient le code OTP et sa date d'expiration
     private final Map<String, OtpData> otpMap = new ConcurrentHashMap<>();
-    
+    private static final int OTP_VALIDITY_MINUTES = 5;
+
     /**
-     * Génère un code OTP à 6 chiffres et l'envoie par email
+     * Génère un code OTP pour un email donné
      * 
-     * @param email l'adresse email à laquelle envoyer l'OTP
-     * @param action description de l'action sécurisée 
+     * @param email l'adresse email pour laquelle générer le code OTP
+     * @param action description de l'action sécurisée
      * @return le code OTP généré
      */
-    public String generateAndSendOtp(String email, String action) {
+    public String generateOtp(String email, String action) {
         // Générer un code OTP à 6 chiffres
         String otpCode = generateOtp();
         
-        // Définir la date d'expiration (5 minutes)
-        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(5);
+        // Calculer la date d'expiration (maintenant + 5 minutes)
+        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(OTP_VALIDITY_MINUTES);
         
-        // Stocker l'OTP avec sa date d'expiration
+        // Stocker l'OTP avec sa date d'expiration pour l'email donné
         otpMap.put(email, new OtpData(otpCode, expiryTime));
         
         // Envoyer l'OTP par email
@@ -48,7 +44,7 @@ public class OtpService {
         
         return otpCode;
     }
-    
+
     /**
      * Vérifie la validité d'un code OTP pour un email donné
      * 
@@ -57,20 +53,21 @@ public class OtpService {
      * @return true si le code est valide et non expiré, false sinon
      */
     public boolean validateOtp(String email, String otpCode) {
+        // Vérifier si l'email a un OTP associé
         OtpData otpData = otpMap.get(email);
-        
         if (otpData == null) {
             log.warn("Tentative de validation d'un OTP pour un email sans OTP: {}", email);
             return false;
         }
         
+        // Vérifier si l'OTP est expiré
         if (LocalDateTime.now().isAfter(otpData.getExpiryTime())) {
-            // Supprimer l'OTP expiré
             otpMap.remove(email);
             log.warn("OTP expiré pour l'email: {}", email);
             return false;
         }
         
+        // Vérifier si le code OTP est correct
         if (otpData.getOtpCode().equals(otpCode)) {
             // Supprimer l'OTP après une validation réussie
             otpMap.remove(email);
@@ -101,16 +98,13 @@ public class OtpService {
      * @param action description de l'action sécurisée
      */
     private void sendOtpByEmail(String email, String otpCode, String action) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Code de sécurité pour " + action);
-        message.setText("Votre code de sécurité pour " + action + " est: " + otpCode + 
-                       "\n\nCe code est valable pendant 5 minutes.");
-        
-        emailSender.send(message);
+        // Ici, nous simulons l'envoi d'email pour le code OTP
+        // Dans une implémentation réelle, vous utiliseriez un service d'email
+        log.info("Simulation d'envoi d'email OTP à {} pour l'action {}: {}", email, action, otpCode);
     }
     
     @Data
+    @AllArgsConstructor
     private static class OtpData {
         private final String otpCode;
         private final LocalDateTime expiryTime;

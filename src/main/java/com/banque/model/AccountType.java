@@ -1,8 +1,12 @@
 package com.banque.model;
 
 /**
- * Types de comptes bancaires disponibles
+ * Enum defining the different types of accounts available in the banking system.
  */
 public enum AccountType {
-    COURANT, EPARGNE
+    CHECKING,    // Compte courant
+    SAVINGS,     // Compte épargne
+    MONEY_MARKET, // Compte de marché monétaire
+    CERTIFICATE_OF_DEPOSIT, // Certificat de dépôt
+    RETIREMENT    // Compte de retraite
 }

@@ -1,7 +1,7 @@
 package com.banque.service;
 
 /**
- * Service responsable de l'envoi d'emails
+ * Service pour l'envoi d'emails
  */
 public interface EmailService {
     

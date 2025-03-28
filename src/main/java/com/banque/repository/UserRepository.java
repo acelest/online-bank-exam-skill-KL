@@ -6,41 +6,31 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.banque.model.User;
-import com.banque.model.User.UserStatus;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     
     /**
-     * Trouve un utilisateur par son nom d'utilisateur
+     * Recherche un utilisateur par son nom d'utilisateur
      * 
      * @param username le nom d'utilisateur à rechercher
-     * @return l'utilisateur correspondant ou empty si aucun trouvé
+     * @return l'utilisateur trouvé ou empty si aucun utilisateur n'est trouvé
      */
     Optional<User> findByUsername(String username);
     
     /**
-     * Trouve un utilisateur par son nom d'utilisateur et son statut
-     * 
-     * @param username le nom d'utilisateur à rechercher
-     * @param status le statut de l'utilisateur
-     * @return l'utilisateur correspondant ou empty si aucun trouvé
-     */
-    Optional<User> findByUsernameAndStatus(String username, UserStatus status);
-    
-    /**
-     * Vérifie si un utilisateur existe avec le nom d'utilisateur spécifié
+     * Vérifie si un utilisateur avec le nom d'utilisateur donné existe
      * 
      * @param username le nom d'utilisateur à vérifier
-     * @return true si un utilisateur existe avec ce nom, false sinon
+     * @return true si un utilisateur avec ce nom existe, false sinon
      */
     boolean existsByUsername(String username);
     
     /**
-     * Vérifie si un utilisateur existe avec l'email spécifié
+     * Vérifie si un utilisateur avec l'email donné existe
      * 
      * @param email l'email à vérifier
-     * @return true si un utilisateur existe avec cet email, false sinon
+     * @return true si un utilisateur avec cet email existe, false sinon
      */
     boolean existsByEmail(String email);
 }

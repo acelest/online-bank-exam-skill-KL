@@ -14,6 +14,11 @@ import com.banque.exception.AuthenticationException;
 import com.banque.model.User;
 import com.banque.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +27,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Authentification", description = "API pour l'inscription et la connexion des utilisateurs")
 public class ApiAuthController {
 
     private final UserService userService;
     
     @PostMapping("/inscription")
+    @Operation(summary = "Inscription d'un nouvel utilisateur", 
+              description = "Permet à un nouvel utilisateur de s'inscrire dans le système")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Inscription réussie",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Données d'inscription invalides",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
     public ResponseEntity<ApiResponse<UserDTO>> inscription(@Valid @RequestBody InscriptionRequest request) {
         log.info("Inscription d'un nouvel utilisateur: {}", request.getUsername());
         
@@ -43,6 +57,14 @@ public class ApiAuthController {
     }
     
     @PostMapping("/connexion")
+    @Operation(summary = "Connexion d'un utilisateur", 
+              description = "Authentifie un utilisateur avec son nom d'utilisateur et mot de passe")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Connexion réussie",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Authentification échouée",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
     public ResponseEntity<ApiResponse<UserDTO>> connexion(@Valid @RequestBody LoginRequest request) {
         log.info("Tentative de connexion pour l'utilisateur: {}", request.getUsername());
         

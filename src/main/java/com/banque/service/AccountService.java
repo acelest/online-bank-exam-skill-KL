@@ -3,7 +3,7 @@ package com.banque.service;
 import java.util.List;
 
 import com.banque.model.Account;
-import com.banque.model.Account.AccountType;
+import com.banque.model.AccountType;
 import com.banque.model.User;
 
 /**
@@ -20,7 +20,7 @@ public interface AccountService {
     List<Account> findAllByUsername(String username);
     
     /**
-     * Récupère un compte par son identifiant
+     * Récupère un compte paar son identifiant
      * 
      * @param id l'identifiant du compte
      * @return le compte correspondant

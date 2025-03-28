@@ -1,10 +1,7 @@
 package com.banque.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,33 +9,34 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entité représentant un utilisateur du système bancaire
+ */
 @Entity
 @Table(name = "users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
     
     @Column(nullable = false)
     private String password;
     
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     
     @Column(nullable = false)
@@ -47,18 +45,17 @@ public class User {
     @Column(nullable = false)
     private String prenom;
     
-    @Column(nullable = false)
     private LocalDateTime dateInscription;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private UserStatus status;
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<Account> accounts = new ArrayList<>();
-    
+    /**
+     * Statut possible d'un utilisateur
+     */
     public enum UserStatus {
-        ACTIF, INACTIF, BLOQUE
+        ACTIF,
+        INACTIF,
+        BLOQUE
     }
 }

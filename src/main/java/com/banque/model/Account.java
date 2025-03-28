@@ -19,19 +19,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entité représentant un compte bancaire
+ */
 @Entity
 @Table(name = "accounts")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Account {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String accountNumber;
     
     @Enumerated(EnumType.STRING)
@@ -44,17 +47,7 @@ public class Account {
     @Column(nullable = false)
     private LocalDateTime createdAt;
     
-    @Column
-    private String description; // Added this field to match the builder usage
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
-    /**
-     * Types de comptes bancaires disponibles
-     */
-    public enum AccountType {
-        COURANT, EPARGNE
-    }
 }

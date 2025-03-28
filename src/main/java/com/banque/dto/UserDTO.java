@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO pour les données d'un utilisateur (sans informations sensibles)
+ * DTO pour exposer les informations utilisateur sans les données sensibles
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserDTO {
     
     private Long id;

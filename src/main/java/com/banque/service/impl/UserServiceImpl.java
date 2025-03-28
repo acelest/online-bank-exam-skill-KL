@@ -2,8 +2,6 @@ package com.banque.service.impl;
 
 import java.time.LocalDateTime;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +15,13 @@ import com.banque.repository.UserRepository;
 import com.banque.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -54,11 +53,12 @@ public class UserServiceImpl implements UserService {
                 .status(User.UserStatus.ACTIF)
                 .build();
         
-        User savedUser = userRepository.save(user);
-        log.info("Utilisateur inscrit avec succès: {}", savedUser.getUsername());
-        return savedUser;
+        // Sauvegarder l'utilisateur
+        user = userRepository.save(user);
+        log.info("Utilisateur créé avec succès: {}", user.getUsername());
+        return user;
     }
-    
+
     @Override
     public User authentifierUtilisateur(LoginRequest request) {
         log.info("Tentative d'authentification pour l'utilisateur: {}", request.getUsername());
@@ -77,22 +77,18 @@ public class UserServiceImpl implements UserService {
         log.info("Utilisateur authentifié avec succès: {}", user.getUsername());
         return user;
     }
-    
+
     @Override
     public User recupererParUsername(String username) {
-        log.info("Récupération de l'utilisateur par username: {}", username);
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    log.error("Utilisateur non trouvé: {}", username);
-                    return new ResourceNotFoundException("Utilisateur non trouvé");
-                });
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
     }
-    
+
     @Override
     public boolean existeParUsername(String username) {
         return userRepository.existsByUsername(username);
     }
-    
+
     @Override
     public boolean existeParEmail(String email) {
         return userRepository.existsByEmail(email);

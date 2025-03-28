@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.banque.dto.ApiResponse;
 import com.banque.exception.ResourceNotFoundException;
 import com.banque.model.Account;
-import com.banque.model.Account.AccountType;
+import com.banque.model.AccountType;
 import com.banque.model.User;
 import com.banque.service.AccountService;
 import com.banque.service.UserService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -72,15 +73,15 @@ public class AccountController {
     
     @PostMapping
     public ResponseEntity<ApiResponse<Account>> creerCompte(
-            @Valid @RequestBody String accountTypeStr, 
+            @Valid @RequestBody AccountCreationRequest request, 
             Authentication authentication) {
         
         String username = authentication.getName();
-        log.info("Création d'un compte {} pour l'utilisateur: {}", accountTypeStr, username);
+        log.info("Création d'un compte {} pour l'utilisateur: {}", request.getAccountType(), username);
         
         try {
             User user = userService.recupererParUsername(username);
-            AccountType type = AccountType.valueOf(accountTypeStr.toUpperCase());
+            AccountType type = AccountType.valueOf(request.getAccountType().toUpperCase());
             
             Account nouveauCompte = accountService.createAccount(user, type);
             
@@ -94,6 +95,20 @@ public class AccountController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(404)
                     .body(new ApiResponse<>("ERREUR", e.getMessage(), null));
+        }
+    }
+
+    // Inner class for request payload
+    public static class AccountCreationRequest {
+        @JsonProperty("accountType")
+        private String accountType;
+
+        public String getAccountType() {
+            return accountType;
+        }
+
+        public void setAccountType(String accountType) {
+            this.accountType = accountType;
         }
     }
 }

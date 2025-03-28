@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.banque.dto.CreateAccountRequest;
 import com.banque.exception.ResourceNotFoundException;
 import com.banque.model.Account;
-// Update the import to use Account.AccountType instead of standalone AccountType
-import com.banque.model.Account.AccountType;
+import com.banque.model.AccountType;
 import com.banque.model.User;
 import com.banque.repository.AccountRepository;
 import com.banque.repository.UserRepository;
