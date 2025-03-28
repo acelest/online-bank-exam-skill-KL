@@ -1,9 +1,7 @@
-package com.banque.service.impl;
+package com.banque.service;
 
 import java.time.LocalDateTime;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,35 +9,37 @@ import org.springframework.transaction.annotation.Transactional;
 import com.banque.dto.InscriptionRequest;
 import com.banque.dto.LoginRequest;
 import com.banque.exception.AuthenticationException;
-import com.banque.exception.ResourceNotFoundException;
 import com.banque.model.User;
 import com.banque.repository.UserRepository;
-import com.banque.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
+    /**
+     * Inscrit un nouvel utilisateur dans le système
+     * 
+     * @param request les informations d'inscription
+     * @return l'utilisateur créé
+     * @throws IllegalArgumentException si le nom d'utilisateur ou l'email existe déjà
+     */
     @Transactional
+    @Override
     public User inscrireUtilisateur(InscriptionRequest request) {
-        log.info("Inscription d'un nouvel utilisateur: {}", request.getUsername());
-        
         // Vérifier si le nom d'utilisateur existe déjà
         if (userRepository.existsByUsername(request.getUsername())) {
-            log.error("Nom d'utilisateur déjà utilisé: {}", request.getUsername());
             throw new IllegalArgumentException("Ce nom d'utilisateur est déjà pris");
         }
         
         // Vérifier si l'email existe déjà
         if (userRepository.existsByEmail(request.getEmail())) {
-            log.error("Email déjà utilisé: {}", request.getEmail());
             throw new IllegalArgumentException("Cet email est déjà utilisé");
         }
         
@@ -51,23 +51,22 @@ public class UserServiceImpl implements UserService {
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .dateInscription(LocalDateTime.now())
-                .status(User.UserStatus.ACTIF)
                 .build();
         
-        User savedUser = userRepository.save(user);
-        log.info("Utilisateur inscrit avec succès: {}", savedUser.getUsername());
-        return savedUser;
+        return userRepository.save(user);
     }
     
+    /**
+     * Authentifie un utilisateur
+     * 
+     * @param request les informations de connexion
+     * @return l'utilisateur authentifié
+     * @throws AuthenticationException si l'authentification échoue
+     */
     @Override
     public User authentifierUtilisateur(LoginRequest request) {
-        log.info("Tentative d'authentification pour l'utilisateur: {}", request.getUsername());
-        
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> {
-                    log.warn("Utilisateur non trouvé: {}", request.getUsername());
-                    return new AuthenticationException("Nom d'utilisateur ou mot de passe incorrect");
-                });
+                .orElseThrow(() -> new AuthenticationException("Nom d'utilisateur ou mot de passe incorrect"));
         
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             log.warn("Tentative de connexion échouée pour l'utilisateur: {}", request.getUsername());
@@ -77,22 +76,37 @@ public class UserServiceImpl implements UserService {
         log.info("Utilisateur authentifié avec succès: {}", user.getUsername());
         return user;
     }
-    
+
+    /**
+     * Récupère un utilisateur par son nom d'utilisateur
+     * 
+     * @param username le nom d'utilisateur
+     * @return l'utilisateur correspondant
+     * @throws com.banque.exception.ResourceNotFoundException si l'utilisateur n'existe pas
+     */
     @Override
     public User recupererParUsername(String username) {
-        log.info("Récupération de l'utilisateur par username: {}", username);
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    log.error("Utilisateur non trouvé: {}", username);
-                    return new ResourceNotFoundException("Utilisateur non trouvé");
-                });
+                .orElseThrow(() -> new com.banque.exception.ResourceNotFoundException("Utilisateur non trouvé"));
     }
-    
+
+    /**
+     * Vérifie si un nom d'utilisateur existe déjà
+     * 
+     * @param username le nom d'utilisateur à vérifier
+     * @return true si le nom d'utilisateur existe, false sinon
+     */
     @Override
     public boolean existeParUsername(String username) {
         return userRepository.existsByUsername(username);
     }
-    
+
+    /**
+     * Vérifie si un email existe déjà
+     * 
+     * @param email l'email à vérifier
+     * @return true si l'email existe, false sinon
+     */
     @Override
     public boolean existeParEmail(String email) {
         return userRepository.existsByEmail(email);

@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,50 +24,37 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Account {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
+    
+    @Column(nullable = false, unique = true)
     private String accountNumber;
-
-    @Column(nullable = false)
-    private BigDecimal balance = BigDecimal.ZERO;
-
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AccountType accountType;
-
+    
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
+    private BigDecimal balance;
+    
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+    
+    @Column
+    private String description; // Added this field to match the builder usage
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    
+    /**
+     * Types de comptes bancaires disponibles
+     */
+    public enum AccountType {
+        COURANT, EPARGNE
     }
 }

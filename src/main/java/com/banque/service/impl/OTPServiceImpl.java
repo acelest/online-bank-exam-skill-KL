@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.banque.model.OtpData;
 import com.banque.model.User;
 import com.banque.service.EmailService;
 import com.banque.service.OTPService;
@@ -22,8 +23,8 @@ public class OTPServiceImpl implements OTPService {
     private static final Logger log = LoggerFactory.getLogger(OTPServiceImpl.class);
     private final EmailService emailService;
     
-    // Structure pour stocker les OTP: Map<username, Map<otpCode, expirationTime>>
-    private final Map<String, Map<String, LocalDateTime>> otpStorage = new ConcurrentHashMap<>();
+    // Structure pour stocker les OTP: Map<username, Map<otpCode, otpData>>
+    private final Map<String, Map<String, OtpData>> otpStorage = new ConcurrentHashMap<>();
     
     // Durée de validité de l'OTP en minutes
     private static final int OTP_VALIDITY_MINUTES = 5;
@@ -40,7 +41,7 @@ public class OTPServiceImpl implements OTPService {
         
         // Stocker l'OTP avec son temps d'expiration
         otpStorage.computeIfAbsent(user.getUsername(), k -> new ConcurrentHashMap<>())
-                 .put(otpCode, expirationTime);
+                 .put(otpCode, new OtpData(otpCode, expirationTime));
         
         log.info("Code OTP généré pour l'utilisateur: {}", user.getUsername());
         
@@ -52,20 +53,21 @@ public class OTPServiceImpl implements OTPService {
         log.info("Validation du code OTP pour l'utilisateur: {}", username);
         
         // Vérifier si l'utilisateur a des OTP stockés
-        Map<String, LocalDateTime> userOtps = otpStorage.get(username);
+        Map<String, OtpData> userOtps = otpStorage.get(username);
         if (userOtps == null) {
             log.error("Aucun OTP trouvé pour l'utilisateur: {}", username);
             return false;
         }
         
-        // Vérifier si le code OTP existe et n'est pas expiré
-        LocalDateTime expirationTime = userOtps.get(otpCode);
-        if (expirationTime == null) {
+        // Vérifier si le code OTP existe
+        OtpData otpData = userOtps.get(otpCode);
+        if (otpData == null) {
             log.error("Code OTP incorrect pour l'utilisateur: {}", username);
             return false;
         }
         
-        if (expirationTime.isBefore(LocalDateTime.now())) {
+        // Vérifier si l'OTP est expiré
+        if (otpData.isExpired()) {
             log.error("Code OTP expiré pour l'utilisateur: {}", username);
             userOtps.remove(otpCode);
             return false;
@@ -101,7 +103,7 @@ public class OTPServiceImpl implements OTPService {
      */
     private String genererCodeOTP() {
         SecureRandom random = new SecureRandom();
-        int code = 100000 + random.nextInt(900000); // Génère un nombre entre 100000 et 999999
-        return String.valueOf(code);
+        int otp = 100000 + random.nextInt(900000); // Génère un nombre entre 100000 et 999999
+        return String.valueOf(otp);
     }
 }

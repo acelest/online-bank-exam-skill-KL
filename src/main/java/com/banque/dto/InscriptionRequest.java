@@ -3,10 +3,14 @@ package com.banque.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO pour la demande d'inscription d'un utilisateur
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +25,12 @@ public class InscriptionRequest {
     private String password;
     
     @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "Format d'email invalide")
+    @Email(message = "L'email doit être valide")
     private String email;
+    
+    @NotBlank(message = "Le nom est obligatoire")
+    private String nom;
+    
+    @NotBlank(message = "Le prénom est obligatoire")
+    private String prenom;
 }

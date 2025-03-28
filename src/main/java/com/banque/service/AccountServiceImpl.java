@@ -1,4 +1,4 @@
-package com.banque.service.impl;
+package com.banque.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.banque.dto.CreateAccountRequest;
 import com.banque.exception.ResourceNotFoundException;
 import com.banque.model.Account;
+// Update the import to use Account.AccountType instead of standalone AccountType
 import com.banque.model.Account.AccountType;
 import com.banque.model.User;
 import com.banque.repository.AccountRepository;
 import com.banque.repository.UserRepository;
-import com.banque.service.AccountService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,8 +68,8 @@ public class AccountServiceImpl implements AccountService {
         // Création du compte
         Account account = Account.builder()
                 .accountNumber(generateAccountNumber())
-                .accountType(type)
-                .balance(BigDecimal.valueOf(request.getSoldeInitial()))
+                .accountType(type) // This will now work with Account.AccountType
+                .balance(BigDecimal.valueOf(request.getSoldeInitial())) // conversion correcte de solde initial
                 .createdAt(LocalDateTime.now())
                 .user(owner)
                 .build();
@@ -135,8 +135,8 @@ public class AccountServiceImpl implements AccountService {
         // Création du compte
         Account account = Account.builder()
                 .accountNumber(generateAccountNumber())
-                .accountType(accountType)
-                .balance(BigDecimal.ZERO)
+                .accountType(accountType) // This will now work with Account.AccountType
+                .balance(BigDecimal.ZERO) // solde initial mis à zéro
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();
