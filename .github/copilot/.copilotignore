@@ -1,0 +1,11 @@
+# Ignorer les fichiers de test dans le MVP initial
+**/*Test.java
+**/*IT.java
+**/test/**
+
+# Ignorer les fichiers de configuration spécifiques à l'environnement
+**/application-dev.properties
+**/application-prod.properties
+
+# Ignorer les fichiers de documentation générés
+**/javadoc/**
