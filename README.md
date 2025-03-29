@@ -123,6 +123,14 @@ http://localhost:8080/swagger-ui.html
 - Lombok
 - Swagger pour la documentation API
 
+Er diagram
+
+![er diagram](https://user-images.githubusercontent.com/34470526/37703339-8e85fcae-2d1f-11e8-900f-94cb2046d97f.png)
+
+Online banking system detail diagram
+
+![online banking system detail diagram](https://user-images.githubusercontent.com/34470526/37703353-999023fe-2d1f-11e8-96f6-db40724c5d14.png)
+
 ## Tests
 
 Pour exécuter les tests :
