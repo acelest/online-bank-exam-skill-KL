@@ -1,10 +1,10 @@
 # Online Banking System
 
-Une application bancaire en ligne développée avec Node.js et Express qui permet aux utilisateurs de gérer leurs comptes, effectuer des transactions et suivre leurs finances.
+Une application bancaire en ligne développée avec Spring Boot qui permet aux utilisateurs de gérer leurs comptes, effectuer des transactions et suivre leurs finances.
 
 ## Fonctionnalités
 
-- Inscription et authentification des utilisateurs
+- Inscription et authentification des utilisateurs avec JWT
 - Gestion de comptes bancaires
 - Transferts entre comptes
 - Historique des transactions
@@ -12,9 +12,9 @@ Une application bancaire en ligne développée avec Node.js et Express qui perme
 
 ## Prérequis
 
-- Node.js (v14.0.0 ou supérieur)
-- MongoDB
-- NPM
+- Java 8 ou supérieur
+- Maven
+- MySQL
 
 ## Installation
 
@@ -25,72 +25,97 @@ git clone https://github.com/votre-username/online-banking.git
 cd online-banking
 ```
 
-2. Installez les dépendances :
+2. Configurez la base de données MySQL dans `src/main/resources/application.properties`
+
+3. Compilez et installez le projet avec Maven :
 
 ```
-npm install
-```
-
-3. Créez un fichier `.env` à la racine du projet avec les variables suivantes :
-
-```
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/online-banking
-JWT_SECRET=votre_secret_jwt
+mvn clean install
 ```
 
 ## Lancement de l'application
 
 ### Développement
 
-Pour lancer l'application en mode développement avec rechargement automatique :
+Pour lancer l'application en mode développement :
 
 ```
-npm run dev
+mvn spring-boot:run
 ```
 
 ### Production
 
-Pour lancer l'application en mode production :
+Pour générer le fichier JAR et lancer l'application :
 
 ```
-npm start
+mvn package
+java -jar target/userFront-0.0.1-SNAPSHOT.jar
 ```
 
-L'application sera accessible à l'adresse `http://localhost:3000` (ou le port défini dans votre fichier .env).
+L'application sera accessible à l'adresse `http://localhost:8080`.
 
 ## Structure du projet
 
 ```
 online-banking/
-├── config/           # Configuration de l'application
-├── controllers/      # Contrôleurs pour gérer les requêtes
-├── middleware/       # Middleware personnalisé (authentification, etc.)
-├── models/           # Modèles de données MongoDB
-├── routes/           # Routes de l'API
-├── services/         # Services métier
-├── utils/            # Utilitaires
-├── .env              # Variables d'environnement
-├── app.js            # Point d'entrée de l'application
-└── package.json      # Dépendances et scripts
+├── src/
+│   ├── main/
+│   │   ├── java/com/userfront/
+│   │   │   ├── controller/     # Contrôleurs REST
+│   │   │   ├── dao/            # Interfaces DAO (Data Access Object)
+│   │   │   ├── domain/         # Entités/modèles
+│   │   │   ├── security/       # Configuration de sécurité JWT
+│   │   │   ├── service/        # Services métier
+│   │   │   └── UserFrontApplication.java  # Point d'entrée
+│   │   └── resources/
+│   │       ├── static/         # Ressources statiques (CSS, JS)
+│   │       ├── templates/      # Templates Thymeleaf
+│   │       └── application.properties  # Configuration
+│   └── test/                  # Tests unitaires et d'intégration
+├── pom.xml                    # Dépendances et configuration Maven
+└── README.md
 ```
+
+## Configuration
+
+Les principales configurations se trouvent dans le fichier `src/main/resources/application.properties` :
+
+- Configuration de la base de données
+- Propriétés JWT pour l'authentification
+- Configuration CORS
+- Port du serveur (8080 par défaut)
 
 ## API Documentation
 
+L'API est documentée avec Swagger et accessible à l'adresse suivante après le démarrage de l'application :
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
 ### Endpoints principaux
 
-- **POST /api/auth/register** - Inscription d'un nouvel utilisateur
-- **POST /api/auth/login** - Connexion utilisateur
-- **GET /api/accounts** - Récupérer les comptes de l'utilisateur
-- **POST /api/transactions** - Créer une nouvelle transaction
-- **GET /api/transactions** - Récupérer l'historique des transactions
+- **/signup** - Inscription d'un nouvel utilisateur
+- **/api/login** - Authentification d'un utilisateur (JWT)
+- **/userFront** - Dashboard utilisateur
+
+## Technologies utilisées
+
+- Spring Boot 2.5.0
+- Spring Security avec JWT
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Thymeleaf
+- Lombok
+- Swagger pour la documentation API
 
 ## Tests
 
 Pour exécuter les tests :
 
 ```
-npm test
+mvn test
 ```
 
 ## Contribution
