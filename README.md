@@ -10,6 +10,19 @@ Une application bancaire en ligne développée avec Spring Boot qui permet aux u
 - Historique des transactions
 - Gestion de profil utilisateur
 
+## Captures d'écran
+
+Voici quelques captures d'écran de l'application :
+
+![Capture d'écran 1](Screenshot%20from%202025-03-29%2003-30-35.png)
+_Vue principale du dashboard utilisateur_
+
+![Capture d'écran 2](Screenshot%20from%202025-03-29%2008-36-44.png)
+_Interface de gestion des comptes_
+
+![Capture d'écran 3](Screenshot%20from%202025-03-29%2012-22-04.png)
+_Écran de transactions_
+
 ## Prérequis
 
 - Java 8 ou supérieur
