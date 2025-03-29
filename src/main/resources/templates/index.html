@@ -1,43 +1,129 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header"/>
-<body>
+<body class="bg-gray-50">
 <!-- Login Section -->
-    <img class="img-responsive" src="/images/bann.png" alt="bann"/>
-    <div class="container">
-        <div class="row ">
-            <div class="main-center ">
-                <div class="bg-danger" th:if="${param.error}">
-                    Invalid username and secret.
+<div class="min-h-screen flex flex-col">
+    <!-- Banner Image -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-900 shadow-lg">
+        <img class="banner-image mx-auto" src="/images/web-concept-online-banking-modern-260nw-603967571.pngs.png" alt="Banner" />
+    </div>
+    
+    <!-- Login Form -->
+    <div class="flex flex-grow items-center justify-center px-4 sm:px-6 lg:px-8 py-10">
+        <div class="max-w-md w-full space-y-8 bg-white shadow-lg rounded-xl p-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900">Welcome Back</h2>
+                <p class="mt-2 text-sm text-gray-600">Sign in to access your accounts</p>
+            </div>
+            
+            <!-- Error Messages -->
+            <div th:if="${param.error}" class="rounded-md bg-red-50 p-4 mb-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-circle text-red-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-red-800">
+                            Invalid username or password
+                        </p>
+                    </div>
                 </div>
-                <div class="bg-danger" th:if="${param.logout}">
-                    You have been logged out.
+            </div>
+            
+            <div th:if="${param.logout}" class="rounded-md bg-blue-50 p-4 mb-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-info-circle text-blue-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-blue-800">
+                            You have been logged out
+                        </p>
+                    </div>
                 </div>
-                <form class="form-signin" th:action="@{/index}" method="post">
-                    <h2 class="form-signin-heading">Please sign in</h2>
-                    <div class="form-group">
+            </div>
+            
+            <!-- Login Form -->
+            <form class="mt-8 space-y-6" th:action="@{/index}" method="post">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
                         <label for="username" class="sr-only">Username</label>
-                        <input type="text" roleId="username" class="form-control" placeholder="Username" name="username"
-                               id="username"
-                               required="required" autofocus="autofocus"/>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400"></i>
+                            </div>
+                            <input id="username" name="username" type="text" required 
+                                class="appearance-none rounded-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
+                                placeholder="Username" />
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div>
                         <label for="password" class="sr-only">Password</label>
-                        <input type="password" roleId="inputPassword" class="form-control" placeholder="Password"
-                               id="password"
-                               name="password" required="required"/>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input id="password" name="password" type="password" required 
+                                class="appearance-none rounded-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
+                                placeholder="Password" />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="checkbox" name="remember-me" id="remember-me"/> &nbsp; Remember me
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" 
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                            Remember me
+                        </label>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </form>
+                </div>
                 
-                <hr />
+                <div>
+                    <button type="submit" 
+                        class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fas fa-sign-in-alt text-blue-500 group-hover:text-blue-400"></i>
+                        </span>
+                        Sign in
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">
+                            New to our platform?
+                        </span>
+                    </div>
+                </div>
                 
-                <div class="form-group ">
-                    <a type="submit" class="btn btn-info btn-lg btn-block login-button" th:href="@{/signup}">Sign up!</a>
+                <div class="mt-6">
+                    <a th:href="@{/signup}" 
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-600 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        Create an account
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Footer -->
+    <footer class="bg-white py-4 border-t">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">
+                &copy; 2023 Online Banking System. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</div>
+
+<div th:replace="common/header :: body-bottom-scripts" />
+</body>
+</html>

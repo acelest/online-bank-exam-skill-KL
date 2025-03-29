@@ -1,120 +1,221 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:fragment="common-header">
-
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>User Front</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Website Font style -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
-
+    <title>Online Banking System</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
     <!-- Google Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css' />
-    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
-
-    <!--bootstrap date-time picker-->
-    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-
-    <!--data table-->
-    <link href="/css/jquery.dataTable.min.css" rel="stylesheet" />
-    <link href="/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Custom CSS -->
-    <!--<link href="css/scrolling-nav.css" rel="stylesheet" />-->
-    <link href="/css/main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Custom styles -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .banner-image {
+            max-height: 120px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .dropdown-menu {
+            display: none;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50">
 <!-- Navigation -->
 <div th:fragment="navbar">
-    <img class="img-responsive" src="/images/bann.png" alt="bann"/>
-
-    <nav class="navbar navbar-default " role="navigation">
-    <div class="container">
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand page-scroll" th:href="@{/userFront}">Home</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse  navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                <li class="hidden">
-                    <a class="page-scroll" href="#page-top"></a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{/account/primaryAccount}">Primary</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a th:href="@{/account/savingsAccount}">Savings</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Transfer <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{/transfer/betweenAccounts}">Between Accounts</a></li>
-                        <li><a th:href="@{/transfer/toSomeoneElse}">To Someone Else</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a th:href="@{/transfer/recipient}">Add/Edit Recipient</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Appointment <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{/appointment/create}">Schedule an Appointment</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Me <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{/user/profile}">Profile</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a th:href="@{/logout}">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-900 shadow-lg">
+        <img class="banner-image mx-auto" src="/images/bann.png" alt="Banner" />
     </div>
-    <!-- /.container -->
-</nav>
+
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a th:href="@{/userFront}" class="text-xl font-bold text-blue-800">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <!-- Accounts Dropdown -->
+                        <div class="relative dropdown">
+                            <button class="inline-flex items-center px-1 pt-1 text-gray-700 hover:text-blue-700">
+                                <i class="fas fa-wallet mr-1"></i>
+                                Accounts
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu z-10">
+                                <a th:href="@{/account/primaryAccount}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-landmark mr-2"></i>Primary Account
+                                </a>
+                                <a th:href="@{/account/savingsAccount}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-piggy-bank mr-2"></i>Savings Account
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Transfer Dropdown -->
+                        <div class="relative dropdown">
+                            <button class="inline-flex items-center px-1 pt-1 text-gray-700 hover:text-blue-700">
+                                <i class="fas fa-exchange-alt mr-1"></i>
+                                Transfer
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 dropdown-menu z-10">
+                                <a th:href="@{/transfer/betweenAccounts}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-sync-alt mr-2"></i>Between Accounts
+                                </a>
+                                <a th:href="@{/transfer/toSomeoneElse}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-paper-plane mr-2"></i>To Someone Else
+                                </a>
+                                <a th:href="@{/transfer/recipient}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-user-plus mr-2"></i>Add/Edit Recipient
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Appointment Dropdown -->
+                        <div class="relative dropdown">
+                            <button class="inline-flex items-center px-1 pt-1 text-gray-700 hover:text-blue-700">
+                                <i class="far fa-calendar-alt mr-1"></i>
+                                Appointment
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 dropdown-menu z-10">
+                                <a th:href="@{/appointment/create}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                    <i class="fas fa-calendar-plus mr-2"></i>Schedule an Appointment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile dropdown -->
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <div class="relative dropdown ml-3">
+                        <button class="flex items-center text-sm font-medium text-gray-700 hover:text-blue-700">
+                            <i class="fas fa-user-circle text-xl mr-1"></i>
+                            Me
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 dropdown-menu z-10">
+                            <a th:href="@{/user/profile}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">
+                                <i class="fas fa-id-card mr-2"></i>Profile
+                            </a>
+                            <a th:href="@{/logout}" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="flex items-center sm:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="sm:hidden hidden mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a th:href="@{/account/primaryAccount}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-landmark mr-2"></i>Primary Account
+                </a>
+                <a th:href="@{/account/savingsAccount}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-piggy-bank mr-2"></i>Savings Account
+                </a>
+                <a th:href="@{/transfer/betweenAccounts}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-sync-alt mr-2"></i>Transfer Between Accounts
+                </a>
+                <a th:href="@{/transfer/toSomeoneElse}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-paper-plane mr-2"></i>Transfer To Someone Else
+                </a>
+                <a th:href="@{/transfer/recipient}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-user-plus mr-2"></i>Add/Edit Recipient
+                </a>
+                <a th:href="@{/appointment/create}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-calendar-plus mr-2"></i>Schedule Appointment
+                </a>
+                <a th:href="@{/user/profile}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300">
+                    <i class="fas fa-id-card mr-2"></i>Profile
+                </a>
+                <a th:href="@{/logout}" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-red-600 hover:bg-gray-50 hover:border-red-300">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
 </div>
 
 <div th:fragment="body-bottom-scripts">
-    <!-- jQuery -->
-    <script src="/js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
-
-    <script src="/js/jquery.easing.min.js"></script>
-
-    <!--bootstrap date-time picker-->
-    <script src="/js/bootstrap-datetimepicker.min.js"></script>
-
-    <!--bootbox-->
-    <script src="/js/bootbox.min.js"></script>
-
-    <!--data table-->
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="/js/dataTables.bootstrap.min.js"></script>
-
-    <!--main js-->
-    <script src="/js/main.js"></script>
+    <!-- Alpine.js for dropdown interactivity -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <!-- Footer with attribution -->
+    <div th:fragment="footer" class="bg-white mt-12 py-6 border-t">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">
+                &copy; 2023 Online Banking System. Tous droits réservés. Développé par 
+                <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Custom scripts -->
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
 </div>
 
 </body>

@@ -1,41 +1,161 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header"/>
-<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body class="bg-gray-50">
 <head th:replace="common/header :: navbar"/>
-<div class="container main">
-    <div class="row">
-        <div class="col-md-6">
-            <form th:action="@{/account/withdraw}" method="post">
-                <div class="form-group" >
-                    <label for="accountType">1. Please select the account you would like to withdraw:</label>
-                    <select class="form-control" th:value="${accountType}" name="accountType" id="accountType" required="required" >
-                        <option disabled="disabled" selected="selected"> -- select your account -- </option>
-                        <option>Primary</option>
-                        <option>Savings</option>
-                    </select>
-                    <br />
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Withdraw Funds</h1>
+            <p class="mt-2 text-sm text-gray-600">Withdraw money from your accounts safely and securely</p>
+        </div>
+        <a href="/userFront" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Form Section -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-red-50 to-red-100">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <i class="fas fa-money-bill-wave text-red-500 mr-2"></i>
+                    Withdrawal Details
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Please fill in the details below to complete your withdrawal
+                </p>
+            </div>
+            <div class="px-4 py-5 sm:p-6">
+                <form th:action="@{/account/withdraw}" method="post" class="space-y-6">
+                    <!-- Account Type -->
+                    <div>
+                        <label for="accountType" class="block text-sm font-medium text-gray-700">
+                            1. Select the account to withdraw from:
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-credit-card text-gray-400"></i>
+                            </div>
+                            <select 
+                                class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500" 
+                                th:value="${accountType}" 
+                                name="accountType" 
+                                id="accountType" 
+                                required
+                            >
+                                <option disabled="disabled" selected="selected"> -- select your account -- </option>
+                                <option>Primary</option>
+                                <option>Savings</option>
+                            </select>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">Choose the account you want to withdraw money from</p>
+                    </div>
+                    
+                    <!-- Amount -->
+                    <div>
+                        <label for="amount" class="block text-sm font-medium text-gray-700">
+                            2. Enter the amount to withdraw:
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-dollar-sign text-gray-400"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500" 
+                                th:value="${amount}" 
+                                name="amount" 
+                                id="amount" 
+                                placeholder="0.00" 
+                                required
+                            />
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">Please enter a valid amount for withdrawal</p>
+                    </div>
+                    
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+                    
+                    <div class="pt-5">
+                        <div class="flex justify-end">
+                            <a href="/userFront" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                Cancel
+                            </a>
+                            <button 
+                                type="submit" 
+                                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            >
+                                <i class="fas fa-money-bill-wave mr-2"></i>
+                                Withdraw Funds
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Illustration and Information -->
+        <div class="lg:flex lg:flex-col lg:justify-between hidden lg:block">
+            <div>
+                <!-- Image -->
+                <div class="relative h-64 overflow-hidden rounded-xl mb-6">
+                    <img src="https://img.freepik.com/free-vector/cash-withdrawal-abstract-concept-illustration_335657-3786.jpg" 
+                         alt="Withdrawal Illustration" 
+                         class="w-full h-full object-cover" />
                 </div>
-
-                <div class="form-group">
-                    <label>2. Please specify the amount you would like to withdraw: </label>
-                    <span class="input-group-addon">Amount $</span>
-                    <input th:value="${amount}" type="text" name="amount" id="amount" class="form-control" aria-label="Amount (to the nearest dollar)" />
+                
+                <!-- Information Cards -->
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-red-500">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-info-circle text-red-500 mr-2"></i>
+                            About Withdrawals
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            Withdrawals from your account will be processed immediately. Make sure you have sufficient funds available before proceeding.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-yellow-500">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                            Daily Withdrawal Limits
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            For your security, there may be daily withdrawal limits on your account. Contact customer support if you need to make larger withdrawals.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-question-circle text-green-500 mr-2"></i>
+                            Need Help?
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            If you have any questions about withdrawing funds, please contact our customer support at <span class="font-medium">support@bank.com</span>.
+                        </p>
+                    </div>
                 </div>
-
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Withdraw</button>
-            </form>
-
-            <div class="col-md-6">
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-6 text-center text-sm text-gray-500">
+                &copy; 2023 Online Banking System. All rights reserved.<br />
+                Developed by <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
             </div>
         </div>
     </div>
+    
+    <!-- Mobile footer -->
+    <div class="mt-8 lg:hidden text-center text-sm text-gray-500">
+        &copy; 2023 Online Banking System. All rights reserved.<br />
+        Developed by <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
+    </div>
 </div>
-
 
 <div th:replace="common/header :: body-bottom-scripts"/>
 

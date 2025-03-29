@@ -1,68 +1,237 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header"/>
-<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body class="bg-gray-50">
 <head th:replace="common/header :: navbar"/>
-<div class="container main">
-    <div class="row">
-        <div class="col-lg-12">
-            <!--<h1 class="page-header">Dashboard</h1>-->
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Savings Account</h1>
+            <p class="mt-2 text-sm text-gray-600">View your savings account balance and transaction history</p>
         </div>
-        <!-- /.col-lg-12 -->
+        <a href="/userFront" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
     </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <h2>Savings Balance: </h2>
+    
+    <!-- Balance Card -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="col-span-1">
+            <div class="flex flex-col h-full space-y-6">
+                <div class="bg-gradient-to-r from-green-500 to-green-700 overflow-hidden rounded-xl shadow-lg text-white">
+                    <div class="px-6 py-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold">Savings Account</h2>
+                            <i class="fas fa-piggy-bank text-3xl opacity-80"></i>
                         </div>
-                        <div class="col-xs-6 text-right">
-                            <h1><i class="fa fa-usd" aria-hidden="true"></i> <span th:text="${savingsAccount.accountBalance}">...</span></h1>
+                        <div class="text-sm opacity-80 mb-1">Available Balance</div>
+                        <div class="flex items-baseline">
+                            <span class="text-3xl font-bold">$</span>
+                            <span class="text-4xl font-bold ml-1" th:text="${savingsAccount.accountBalance}">0.00</span>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-green-400 border-opacity-30">
+                            <div class="flex items-center justify-between text-sm">
+                                <div>Account Number:</div>
+                                <div class="font-semibold" th:text="${savingsAccount.accountNumber}">00000000</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                    <div class="panel-footer">
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-gray-50 to-gray-100">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                            Quick Actions
+                        </h3>
                     </div>
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="/deposit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                Deposit
+                            </a>
+                            <a href="/account/withdraw" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <i class="fas fa-minus-circle mr-2"></i>
+                                Withdraw
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interest Rate Info -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-green-50 to-green-100">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            <i class="fas fa-percentage text-green-500 mr-2"></i>
+                            Savings Rate
+                        </h3>
+                    </div>
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-xs text-gray-500">Annual Interest Rate</div>
+                                <div class="text-3xl font-bold text-green-600">2.5%</div>
+                                <div class="mt-2 text-xs text-gray-500">Next interest payment: June 30, 2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lg:col-span-2">
+            <div class="bg-white shadow-md rounded-xl overflow-hidden">
+                <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-green-50 to-green-100">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <i class="fas fa-history text-green-500 mr-2"></i>
+                        Transaction History
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                        Recent transactions for your savings account
+                    </p>
+                </div>
+                
+                <!-- Transaction Chart - Placeholder -->
+                <div class="px-4 py-5 bg-white border-b border-gray-200">
+                    <div class="h-32 flex items-center justify-center bg-gray-50 rounded">
+                        <p class="text-gray-500 text-sm">Transaction activity chart would appear here</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
-    <!-- /.row -->
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-            <thead>
-            <tr>
-                <th>Post Date</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Amount</th>
-                <th>Available Balance</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-th-each="savingsTransaction : ${savingsTransactionList}">
-                <td data-th-text="${savingsTransaction.date}">...</td>
-                <td data-th-text="${savingsTransaction.description}">...</td>
-                <td data-th-text="${savingsTransaction.type}">...</td>
-                <td data-th-text="${savingsTransaction.status}">...</td>
-                <td data-th-text="${savingsTransaction.amount}">...</td>
-                <td data-th-text="${savingsTransaction.availableBalance}">...</td>
-            </tr>
-            </tbody>
-        </table>
+    
+    <!-- Transactions Table -->
+    <div class="bg-white shadow-md rounded-xl overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Transactions</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Showing all transactions for your savings account
+                </p>
+            </div>
+            <div>
+                <select class="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                    <option>All Transactions</option>
+                    <option>Deposits</option>
+                    <option>Withdrawals</option>
+                    <option>Transfers</option>
+                </select>
+            </div>
+        </div>
+        <div class="bg-white overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Date
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Description
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Amount
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Balance
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr th:each="savingsTransaction : ${savingsTransactionList}">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${savingsTransaction.date}">
+                            01/01/2023
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${savingsTransaction.description}">
+                            Deposit
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${savingsTransaction.type}">
+                            Account
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span th:if="${savingsTransaction.status == 'Completed'}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" th:text="${savingsTransaction.status}">
+                                Completed
+                            </span>
+                            <span th:if="${savingsTransaction.status == 'Pending'}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800" th:text="${savingsTransaction.status}">
+                                Pending
+                            </span>
+                            <span th:if="${savingsTransaction.status == 'Cancelled'}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800" th:text="${savingsTransaction.status}">
+                                Cancelled
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span th:if="${savingsTransaction.amount >= 0}" class="text-green-600" th:text="${'$' + savingsTransaction.amount}">
+                                $100.00
+                            </span>
+                            <span th:if="${savingsTransaction.amount < 0}" class="text-red-600" th:text="${'$' + savingsTransaction.amount}">
+                                -$50.00
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium" th:text="${'$' + savingsTransaction.availableBalance}">
+                            $1,250.00
+                        </td>
+                    </tr>
+                    
+                    <!-- Empty State -->
+                    <tr th:if="${#lists.isEmpty(savingsTransactionList)}">
+                        <td colspan="6" class="px-6 py-12 text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No transactions</h3>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Your transaction history will appear here once you start using your account.
+                            </p>
+                            <div class="mt-6">
+                                <a href="/deposit" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    <i class="fas fa-plus-circle mr-2"></i>
+                                    Make a deposit
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 sm:px-6">
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-gray-700">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium" th:text="${#lists.size(savingsTransactionList)}">10</span> of <span class="font-medium" th:text="${#lists.size(savingsTransactionList)}">20</span> transactions
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Previous</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-green-600 hover:bg-gray-50">1</a>
+                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Next</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="mt-8 text-center text-sm text-gray-500">
+        &copy; 2023 Online Banking System. All rights reserved.<br />
+        Developed by <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
     </div>
 </div>
-
 
 <div th:replace="common/header :: body-bottom-scripts"/>
 

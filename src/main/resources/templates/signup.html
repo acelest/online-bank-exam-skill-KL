@@ -1,206 +1,281 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
   <head th:replace="common/header :: common-header" />
-  <body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-    <!--<head th:replace="common/header :: navbar" />-->
-
-    <div class="container">
-      <fieldset>
-        <div class="row main">
-          <div class="panel-heading">
-            <div class="panel-title text-center">
-              <h2 th:text="#{title.signupForm}">signup</h2>
-              <hr />
+  <body class="bg-gray-50">
+    <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-5xl w-full bg-white p-8 rounded-xl shadow-md overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Image Side -->
+          <div class="hidden md:block">
+            <div class="h-full flex flex-col justify-between">
+              <div class="flex-grow">
+                <div class="relative h-72 overflow-hidden rounded-xl">
+                  <img src="https://img.freepik.com/free-vector/tiny-people-using-online-banking_74855-7943.jpg" 
+                       alt="Online Banking Illustration" 
+                       class="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                
+                <div class="mt-8 space-y-6">
+                  <h2 class="text-2xl font-bold text-gray-800">Pourquoi nous choisir?</h2>
+                  
+                  <div class="space-y-4">
+                    <div class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100 text-blue-600">
+                          <i class="fas fa-shield-alt text-lg"></i>
+                        </div>
+                      </div>
+                      <div class="ml-4">
+                        <h3 class="text-lg font-medium text-gray-900">Sécurité garantie</h3>
+                        <p class="mt-1 text-sm text-gray-500">Vos données et transactions sont toujours protégées</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-100 text-green-600">
+                          <i class="fas fa-money-bill-wave text-lg"></i>
+                        </div>
+                      </div>
+                      <div class="ml-4">
+                        <h3 class="text-lg font-medium text-gray-900">Transferts instantanés</h3>
+                        <p class="mt-1 text-sm text-gray-500">Envoyez de l'argent en quelques secondes</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-100 text-purple-600">
+                          <i class="fas fa-headset text-lg"></i>
+                        </div>
+                      </div>
+                      <div class="ml-4">
+                        <h3 class="text-lg font-medium text-gray-900">Support 24/7</h3>
+                        <p class="mt-1 text-sm text-gray-500">Notre équipe est disponible à tout moment</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 text-center text-sm text-gray-500">
+                &copy; 2023 Online Banking System. Développé par <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
+              </div>
             </div>
           </div>
-          <div class="main-login main-center">
-            <form class="form-horizontal" method="post" th:action="@{/signup}">
-              <!-- Add this alert near the top of your form if it doesn't already exist -->
-              <div
-                class="alert alert-danger"
-                th:if="${errorMessage}"
-                th:text="${errorMessage}"
-              ></div>
-
-              <div class="form-group">
-                <label for="firstName" class="cols-sm-2 control-label"
-                  >First Name</label
-                >
-                <div class="cols-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><i class="fa fa-user fa" aria-hidden="true"></i
-                    ></span>
+          
+          <!-- Form Side -->
+          <div>
+            <div>
+              <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900" th:text="#{title.signupForm}">
+                Créer votre compte
+              </h2>
+              <p class="mt-2 text-center text-sm text-gray-600">
+                Rejoignez notre banque en ligne et commencez à gérer vos finances dès aujourd'hui
+              </p>
+              <div class="mt-4 border-b border-gray-200"></div>
+            </div>
+            
+            <!-- Alert for error messages -->
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 my-4" th:if="${errorMessage}">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-exclamation-circle text-red-500"></i>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm text-red-700" th:text="${errorMessage}"></p>
+                </div>
+              </div>
+            </div>
+            
+            <form class="mt-8 space-y-6" method="post" th:action="@{/signup}">
+              <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                <!-- First Name -->
+                <div>
+                  <label for="firstName" class="block text-sm font-medium text-gray-700">
+                    Prénom
+                  </label>
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fas fa-user text-gray-400"></i>
+                    </div>
                     <input
                       type="text"
-                      class="form-control"
-                      th:value="${user.firstName}"
+                      class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      th:value="${user != null ? user.firstName : ''}"
                       id="firstName"
                       name="firstName"
-                      roleId="firstname"
-                      placeholder="Enter your first name"
-                      required="required"
+                      placeholder="Votre prénom"
+                      required
                     />
                   </div>
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label for="lastName" class="cols-sm-2 control-label"
-                  >Last Name</label
-                >
-                <div class="cols-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><i class="fa fa-user fa" aria-hidden="true"></i
-                    ></span>
+                
+                <!-- Last Name -->
+                <div>
+                  <label for="lastName" class="block text-sm font-medium text-gray-700">
+                    Nom
+                  </label>
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fas fa-user text-gray-400"></i>
+                    </div>
                     <input
                       type="text"
-                      class="form-control"
-                      th:value="${user.lastName}"
+                      class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      th:value="${user != null ? user.lastName : ''}"
                       id="lastName"
                       name="lastName"
-                      roleId="lastName"
-                      placeholder="Enter your last name"
-                      required="required"
+                      placeholder="Votre nom"
+                      required
                     />
                   </div>
                 </div>
               </div>
-
-              <div class="form-group">
-                <label for="phone" class="cols-sm-2 control-label">Phone</label>
-                <div class="cols-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><i class="fa fa-phone fa" aria-hidden="true"></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      th:value="${user.phone}"
-                      id="phone"
-                      name="phone"
-                      roleId="phone"
-                      placeholder="xxx-xxx-xxxx"
-                      required="required"
-                    />
+              
+              <!-- Phone -->
+              <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700">
+                  Téléphone
+                </label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-phone text-gray-400"></i>
                   </div>
+                  <input
+                    type="text"
+                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    th:value="${user != null ? user.phone : ''}"
+                    id="phone"
+                    name="phone"
+                    placeholder="xxx-xxx-xxxx"
+                    required
+                  />
                 </div>
               </div>
-
-              <div class="form-group">
-                <label for="email" class="cols-sm-2 control-label"
-                  >Your Email</label
-                ><span class="bg-danger pull-right" th:if="${emailExists}"
-                  >Email already exists</span
-                >
-                <div class="cols-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><i class="fa fa-envelope fa" aria-hidden="true"></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      th:value="${user.email}"
-                      id="email"
-                      name="email"
-                      roleId="email"
-                      placeholder="Enter your Email"
-                      required="required"
-                    />
+              
+              <!-- Email -->
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">
+                  Email
+                  <span class="ml-2 text-xs font-medium text-red-600" th:if="${emailExists}">
+                    Email déjà utilisé
+                  </span>
+                </label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-envelope text-gray-400"></i>
                   </div>
+                  <input
+                    type="email"
+                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    th:value="${user != null ? user.email : ''}"
+                    id="email"
+                    name="email"
+                    placeholder="votre@email.com"
+                    required
+                  />
                 </div>
               </div>
-
-              <div class="form-group">
-                <label for="username" class="cols-sm-2 control-label"
-                  >Username</label
-                ><span class="bg-danger pull-right" th:if="${usernameExists}"
-                  >Username already exists</span
-                >
-                <div class="cols-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><i class="fa fa-users fa" aria-hidden="true"></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      th:value="${user.username}"
-                      id="username"
-                      name="username"
-                      roleId="username"
-                      placeholder="Enter your Username"
-                      required="required"
-                    />
+              
+              <!-- Username -->
+              <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">
+                  Nom d'utilisateur
+                  <span class="ml-2 text-xs font-medium text-red-600" th:if="${usernameExists}">
+                    Nom d'utilisateur déjà utilisé
+                  </span>
+                </label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-users text-gray-400"></i>
                   </div>
+                  <input
+                    type="text"
+                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    th:value="${user != null ? user.username : ''}"
+                    id="username"
+                    name="username"
+                    placeholder="Choisissez un nom d'utilisateur"
+                    required
+                  />
                 </div>
               </div>
-
-              <div class="form-group">
-                <label for="password" class="cols-sm-2 control-label"
-                  >Password</label
-                >
-                <div class="cols-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><i class="fa fa-lock fa-lg" aria-hidden="true"></i
-                    ></span>
-                    <input
-                      type="password"
-                      class="form-control"
-                      th:value="${user.password}"
-                      id="password"
-                      name="password"
-                      roleId="password"
-                      placeholder="Enter your Password"
-                      required="required"
-                    />
+              
+              <!-- Password -->
+              <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">
+                  Mot de passe
+                </label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-lock text-gray-400"></i>
                   </div>
-                  <div class="checkbox">
-                    <label>
-                      <input id="showPassword" type="checkbox" />Show Password
-                    </label>
-                  </div>
+                  <input
+                    type="password"
+                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    th:value="${user != null ? user.password : ''}"
+                    id="password"
+                    name="password"
+                    placeholder="Créez un mot de passe sécurisé"
+                    required
+                  />
+                </div>
+                <div class="mt-2">
+                  <label class="inline-flex items-center text-sm text-gray-600">
+                    <input id="showPassword" type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+                    <span class="ml-2">Afficher le mot de passe</span>
+                  </label>
                 </div>
               </div>
-
-              <!--<div class="form-group">-->
-              <!--<label for="confirm" class="cols-sm-2 control-label">Confirm Secret</label>-->
-              <!--<div class="cols-sm-10">-->
-              <!--<div class="input-group">-->
-              <!--<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>-->
-              <!--<input type="secret" class="form-control" name="confirm" roleId="confirm"  placeholder="Confirm your Secret" required="required"/>-->
-              <!--</div>-->
-              <!--</div>-->
-              <!--</div>-->
-
-              <div class="form-group">
+              
+              <div class="pt-2">
                 <button
                   type="submit"
-                  class="btn btn-primary btn-lg btn-block login-button"
+                  class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                 >
-                  Sign up!
+                  <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <i class="fas fa-user-plus text-blue-500 group-hover:text-blue-400"></i>
+                  </span>
+                  Créer mon compte
                 </button>
               </div>
-
-              <hr />
-
-              <div class="form-group">
+              
+              <div class="pt-2">
                 <a
-                  class="btn btn-info btn-lg btn-block login-button"
+                  class="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                   th:href="@{/}"
-                  >Cancel</a
                 >
+                  Annuler
+                </a>
+              </div>
+              
+              <div class="text-center pt-2">
+                <p class="text-sm text-gray-600">
+                  Vous avez déjà un compte?
+                  <a href="/" class="font-medium text-blue-600 hover:text-blue-500">
+                    Connectez-vous
+                  </a>
+                </p>
               </div>
             </form>
           </div>
         </div>
-      </fieldset>
-    </div>
+      </div>
 
+      <!-- Mobile footer -->
+      <div class="mt-8 md:hidden text-center text-sm text-gray-500">
+        &copy; 2023 Online Banking System. Développé par <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
+      </div>
+    </div>
+    
     <div th:replace="common/header :: body-bottom-scripts" />
+    
+    <script>
+      document.getElementById('showPassword').addEventListener('change', function() {
+        var passwordInput = document.getElementById('password');
+        passwordInput.type = this.checked ? 'text' : 'password';
+      });
+    </script>
   </body>
 </html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification OTP - Online Banking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Vérification OTP</h2>
+            <p class="text-gray-600 mt-2">Un code de vérification a été envoyé à votre adresse e-mail</p>
+        </div>
+
+        <form id="otpForm" class="space-y-6">
+            <input type="hidden" id="email" th:value="${email}">
+            <input type="hidden" id="purpose" th:value="${purpose}">
+            
+            <div>
+                <label for="otp" class="block text-sm font-medium text-gray-700">Code OTP</label>
+                <div class="mt-1">
+                    <input type="text" id="otp" name="otp" required
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Entrez le code à 6 chiffres">
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Vérifier
+                </button>
+            </div>
+
+            <div class="text-center">
+                <button type="button" id="resendOtp"
+                    class="text-sm text-blue-600 hover:text-blue-500">
+                    Je n'ai pas reçu de code ? Renvoyer
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('otpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const code = document.getElementById('otp').value;
+            const purpose = document.getElementById('purpose').value;
+
+            try {
+                const response = await fetch('/api/otp/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}&purpose=${encodeURIComponent(purpose)}`
+                });
+
+                if (response.ok) {
+                    window.location.href = '/dashboard'; // Redirection après succès
+                } else {
+                    const error = await response.text();
+                    alert(error);
+                }
+            } catch (error) {
+                alert('Erreur lors de la vérification OTP');
+            }
+        });
+
+        document.getElementById('resendOtp').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const purpose = document.getElementById('purpose').value;
+
+            try {
+                const response = await fetch('/api/otp/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, purpose })
+                });
+
+                if (response.ok) {
+                    alert('Nouveau code OTP envoyé !');
+                } else {
+                    const error = await response.text();
+                    alert(error);
+                }
+            } catch (error) {
+                alert('Erreur lors de l\'envoi du nouveau code OTP');
+            }
+        });
+    </script>
+</body>
+</html> 

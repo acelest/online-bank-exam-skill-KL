@@ -25,8 +25,20 @@
 	</properties>
 
 	<dependencies>
-	
-	
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spring Mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -79,6 +91,25 @@
 			<version>2.9.2</version>
 		</dependency>
 		
+         <!-- JWT Dependencies -->
+         <dependency>
+             <groupId>io.jsonwebtoken</groupId>
+             <artifactId>jjwt-api</artifactId>
+             <version>0.11.5</version>
+         </dependency>
+         <dependency>
+             <groupId>io.jsonwebtoken</groupId>
+             <artifactId>jjwt-impl</artifactId>
+             <version>0.11.5</version>
+             <scope>runtime</scope>
+         </dependency>
+         <dependency>
+             <groupId>io.jsonwebtoken</groupId>
+             <artifactId>jjwt-jackson</artifactId>
+             <version>0.11.5</version>
+             <scope>runtime</scope>
+         </dependency>
+         
 	</dependencies>
 
 	<build>

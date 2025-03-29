@@ -1,82 +1,296 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header"/>
-<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body class="bg-gray-50">
 <head th:replace="common/header :: navbar"/>
-<div class="container main">
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Recipient Information</h3>
-            <form th:action="@{/transfer/recipient/save}" method="post">
-                <input type="hidden" name="id" th:value="${recipient.id}" />
 
-                <div class="form-group">
-                    <label for="recipientName">Name</label>
-                    <input type="text" class="form-control" th:value="${recipient.name}" name="name"
-                           id="recipientName" placeholder="Name"/>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Manage Recipients</h1>
+            <p class="mt-2 text-sm text-gray-600">Add or edit people you want to transfer money to</p>
+        </div>
+        <a href="/userFront" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Recipient Form -->
+        <div class="lg:col-span-1">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-purple-50 to-purple-100">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <i class="fas fa-user-plus text-purple-500 mr-2"></i>
+                        Recipient Information
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                        Add or edit recipient details
+                    </p>
                 </div>
-                <div class="form-group">
-                    <label for="recipientEmail">Email</label>
-                    <input type="email" class="form-control" th:value="${recipient.email}" name="email"
-                           id="recipientEmail" placeholder="Email"/>
+                <div class="px-4 py-5 sm:p-6">
+                    <form th:action="@{/transfer/recipient/save}" method="post" class="space-y-5">
+                        <input type="hidden" name="id" th:value="${recipient.id}" />
+                        
+                        <!-- Name -->
+                        <div>
+                            <label for="recipientName" class="block text-sm font-medium text-gray-700">
+                                Name
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" 
+                                    th:value="${recipient.name}" 
+                                    name="name" 
+                                    id="recipientName" 
+                                    placeholder="Full name of recipient"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="recipientEmail" class="block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-envelope text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" 
+                                    th:value="${recipient.email}" 
+                                    name="email" 
+                                    id="recipientEmail" 
+                                    placeholder="recipient@example.com"
+                                />
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div>
+                            <label for="recipientPhone" class="block text-sm font-medium text-gray-700">
+                                Phone
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-phone text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" 
+                                    th:value="${recipient.phone}" 
+                                    name="phone" 
+                                    id="recipientPhone" 
+                                    placeholder="(123) 456-7890"
+                                />
+                            </div>
+                        </div>
+                        
+                        <!-- Account Number -->
+                        <div>
+                            <label for="recipientAccountNumber" class="block text-sm font-medium text-gray-700">
+                                Account Number
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-hashtag text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" 
+                                    th:value="${recipient.accountNumber}" 
+                                    name="accountNumber" 
+                                    id="recipientAccountNumber" 
+                                    placeholder="Account number"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div>
+                            <label for="recipientDescription" class="block text-sm font-medium text-gray-700">
+                                Description
+                            </label>
+                            <div class="mt-1">
+                                <textarea 
+                                    rows="3" 
+                                    class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md" 
+                                    name="description" 
+                                    id="recipientDescription" 
+                                    placeholder="Notes about this recipient"
+                                    th:text="${recipient.description}"
+                                ></textarea>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
+                        
+                        <div class="pt-3">
+                            <button 
+                                type="submit" 
+                                class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                            >
+                                <i class="fas fa-save mr-2"></i>
+                                Save Recipient
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="recipientPhone">Phone</label>
-                    <input type="text" class="form-control" th:value="${recipient.phone}" name="phone"
-                           id="recipientPhone" placeholder="Phone"/>
+            </div>
+            
+            <!-- Information Card -->
+            <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-blue-50 to-blue-100">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                        About Recipients
+                    </h3>
                 </div>
-                <div class="form-group">
-                    <label for="recipientAccountNumber">Account Number</label>
-                    <input type="text" class="form-control" th:value="${recipient.accountNumber}"
-                           name="accountNumber" id="recipientAccountNumber" placeholder="Account Number"/>
+                <div class="px-4 py-5 sm:p-6">
+                    <p class="text-sm text-gray-600">
+                        Recipients are people or organizations you want to transfer money to. Adding them here allows you to quickly select them when making transfers without having to enter their details each time.
+                    </p>
+                    <div class="mt-4 space-y-2 text-sm text-gray-600">
+                        <div class="flex items-start">
+                            <i class="fas fa-shield-alt text-blue-500 mt-1 mr-2"></i>
+                            <span>Recipient information is stored securely and only visible to you.</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 mt-1 mr-2"></i>
+                            <span>Always verify recipient account numbers before making transfers.</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="recipientDescription">Description</label>
-                    <textarea class="form-control" th:value="${recipient.description}" name="description"
-                              id="recipientDescription" placeholder="Description" th:text="${recipient.description}"></textarea>
+            </div>
+        </div>
+        
+        <!-- Recipients List -->
+        <div class="lg:col-span-2">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-gray-50 to-gray-100">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <i class="fas fa-list text-gray-500 mr-2"></i>
+                        Recipients List
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                        Your saved recipients for easy transfers
+                    </p>
                 </div>
-
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-
-                <button class="btn btn-primary" type="submit">Add/Edit Recipient</button>
-            </form>
-
-            <div class="col-md-6">
+                <div class="px-4 py-5 sm:p-0">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Email
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Phone
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Account Number
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Description
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr th:each="eachRecipient : ${recipientList}">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-purple-600 hover:text-purple-900">
+                                            <a th:href="@{/transfer/recipient/edit?recipientName=}+${eachRecipient.name}" th:text="${eachRecipient.name}">John Doe</a>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${eachRecipient.email}">
+                                        john@example.com
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${eachRecipient.phone}">
+                                        (123) 456-7890
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${eachRecipient.accountNumber}">
+                                        123456789
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" th:text="${eachRecipient.description}">
+                                        Friend from college
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex space-x-2">
+                                            <a th:href="@{/transfer/recipient/edit?recipientName=}+${eachRecipient.name}" class="text-blue-600 hover:text-blue-900">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a th:href="@{/transfer/recipient/delete?recipientName=}+${eachRecipient.name}" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this recipient?');">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Empty State -->
+                                <tr th:if="${#lists.isEmpty(recipientList)}">
+                                    <td colspan="6" class="px-6 py-12 text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                        <h3 class="mt-2 text-sm font-medium text-gray-900">No recipients</h3>
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            Get started by adding a new recipient using the form.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Transfer Section -->
+            <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-purple-50 to-purple-100">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <i class="fas fa-paper-plane text-purple-500 mr-2"></i>
+                        Quick Transfer
+                    </h3>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    <p class="text-sm text-gray-600 mb-4">
+                        Ready to send money? Start a transfer to one of your recipients:
+                    </p>
+                    <a 
+                        href="/transfer/toSomeoneElse" 
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                    >
+                        <i class="fas fa-exchange-alt mr-2"></i>
+                        Start New Transfer
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    <br/>
-    <div class="row">
-        <h3>List of Recipients</h3>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>Recipient Name</th>
-                    <th>Recipient Email</th>
-                    <th>Recipient Phone</th>
-                    <th>Recipient Account Number</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-th-each="eachRecipient : ${recipientList}">
-                    <td><a data-th-text="${eachRecipient.name}" th:href="@{/transfer/recipient/edit?recipientName=}+${eachRecipient.name}">...</a></td>
-                    <td data-th-text="${eachRecipient.email}">...</td>
-                    <td data-th-text="${eachRecipient.phone}">...</td>
-                    <td data-th-text="${eachRecipient.accountNumber}">...</td>
-                    <td data-th-text="${eachRecipient.description}">...</td>
-                    <td><a th:href="@{/transfer/recipient/delete?recipientName=}+${eachRecipient.name}">delete</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+    
+    <!-- Footer -->
+    <div class="mt-8 text-center text-sm text-gray-500">
+        &copy; 2023 Online Banking System. All rights reserved.<br />
+        Developed by <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
     </div>
 </div>
-
 
 <div th:replace="common/header :: body-bottom-scripts"/>
 

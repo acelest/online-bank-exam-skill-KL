@@ -1,52 +1,162 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: common-header"/>
-<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-<head th:replace="common/header :: navbar"/>
-<div class="container main">
-    <div class="row">
-        <div class="col-md-6">
-            <form th:action="@{/transfer/toSomeoneElse}" method="post">
-                <div class="form-group" >
-                    <label for="recipientName">1. Please choose the recipient:</label>
-                    <select class="form-control" th:value="${recipientName}"  name="recipientName" id="recipientName" required="required">
-                        <option disabled="disabled" selected="selected"> -- select the recipient -- </option>
-                        <option data-th-each="eachRecipient : ${recipientList}" data-th-text="${eachRecipient.name}"></option>
-                    </select>
-                    <br />
-                </div>
-
-                <div class="form-group" >
-                    <label for="accountType">2. Please select the account you would like to transfer from:</label>
-                    <select class="form-control" th:value="${accountType}" name="accountType" id="accountType" required="required">
-                        <option disabled="disabled" selected="selected"> -- select your account -- </option>
-                        <option>Primary</option>
-                        <option>Savings</option>
-                    </select>
-                    <br />
-                </div>
-
-                <div class="form-group">
-                    <label>3. Please specify the amount you would like to transfer: </label>
-                    <span class="input-group-addon">Amount $</span>
-                    <input th:value="${amount}" type="text" name="amount" id="amount" class="form-control" aria-label="Amount (to the nearest dollar)" />
-                </div>
-
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Transfer</button>
-            </form>
-
-            <div class="col-md-6">
+  <head th:replace="common/header :: common-header" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .transition-all {
+        transition-property: all;
+        transition-duration: 300ms;
+      }
+      .custom-shadow {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+    }
+  </style>
+  <body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <head th:replace="common/header :: navbar" />
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex justify-center">
+        <div class="w-full max-w-lg">
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4">
+              <h4 class="text-xl font-bold text-white mb-0">
+                Transfer to Someone Else
+              </h4>
             </div>
+            <div class="p-6">
+              <!-- Alert messages -->
+              <div
+                th:if="${param.success}"
+                class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded"
+              >
+                <p class="font-bold">Success!</p>
+                <p>Your transfer has been completed successfully!</p>
+              </div>
+              <div
+                th:if="${param.error}"
+                class="mb-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+              >
+                <p class="font-bold">Error!</p>
+                <p>An error occurred during your transfer. Please try again.</p>
+              </div>
+              <div
+                th:if="${param.insufficient}"
+                class="mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded"
+              >
+                <p class="font-bold">Warning!</p>
+                <p>Insufficient balance to complete this transfer.</p>
+              </div>
+              <div
+                th:if="${param.norecipient}"
+                class="mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded"
+              >
+                <p class="font-bold">Warning!</p>
+                <p>Please add a recipient first.</p>
+              </div>
+
+              <form
+                th:action="@{/transfer/toSomeoneElse}"
+                method="post"
+                class="space-y-6"
+              >
+                <div>
+                  <label
+                    for="recipientName"
+                    class="block text-gray-700 font-medium mb-2"
+                  >
+                    1. Please choose the recipient:
+                  </label>
+                  <select
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    th:value="${recipientName}"
+                    name="recipientName"
+                    id="recipientName"
+                    required="required"
+                  >
+                    <option disabled="disabled" selected="selected">
+                      -- select recipient --
+                    </option>
+                    <option
+                      data-th-each="eachRecipient : ${recipientList}"
+                      data-th-text="${eachRecipient.name}"
+                    ></option>
+                  </select>
+                  <p class="mt-1 text-sm text-gray-500">
+                    If no recipient appears, please add one first.
+                  </p>
+                </div>
+
+                <div>
+                  <label
+                    for="accountType"
+                    class="block text-gray-700 font-medium mb-2"
+                  >
+                    2. Please select the source account:
+                  </label>
+                  <select
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    th:value="${accountType}"
+                    name="accountType"
+                    id="accountType"
+                    required="required"
+                  >
+                    <option disabled="disabled" selected="selected">
+                      -- select your account --
+                    </option>
+                    <option>Primary Account</option>
+                    <option>Savings Account</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-gray-700 font-medium mb-2">
+                    3. Please specify the amount to transfer:
+                  </label>
+                  <div class="flex rounded-md shadow-sm">
+                    <span
+                      class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500"
+                    >
+                      $
+                    </span>
+                    <input
+                      th:value="${amount}"
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      name="amount"
+                      id="amount"
+                      class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:outline-none focus:ring-blue-500 border border-gray-300"
+                      aria-label="Amount (in dollars)"
+                      required="required"
+                    />
+                  </div>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Please enter a valid amount greater than 0.
+                  </p>
+                </div>
+
+                <input
+                  type="hidden"
+                  name="${_csrf.parameterName}"
+                  value="${_csrf.token}"
+                />
+
+                <button
+                  class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+                  type="submit"
+                >
+                  Complete Transfer
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-
-<div th:replace="common/header :: body-bottom-scripts"/>
-
-</body>
+    <div th:replace="common/header :: body-bottom-scripts" />
+  </body>
 </html>

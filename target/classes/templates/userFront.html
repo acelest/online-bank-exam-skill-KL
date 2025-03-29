@@ -1,123 +1,197 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
   <head th:replace="common/header :: common-header" />
-  <body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+  <body class="bg-gray-50">
     <head th:replace="common/header :: navbar" />
-    <div class="container main">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="alert alert-info">
-            <h3>Welcome to Online Banking</h3>
-            <p>Manage your accounts and finances securely.</p>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Welcome Banner -->
+      <div class="mb-8 bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg rounded-xl overflow-hidden">
+        <div class="px-6 py-8 md:flex md:items-center md:justify-between">
+          <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-white sm:text-3xl">
+              Welcome to Online Banking
+            </h2>
+            <p class="mt-1 text-lg text-blue-100">
+              Manage your accounts and finances securely
+            </p>
           </div>
-        </div>
-        <!-- /.col-lg-12 -->
-      </div>
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-lg-6 col-md-6">
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-6">
-                  <!--<i class="fa fa-comments fa-5x"></i>-->
-                  <h2>Primary Balance:</h2>
-                </div>
-                <div class="col-xs-6 text-right">
-                  <h1>
-                    <i class="fa fa-usd" aria-hidden="true"></i>
-                    <span th:text="${primaryAccount.accountBalance}">...</span>
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <a th:href="@{/account/primaryAccount}">
-              <div class="panel-footer">
-                <span class="pull-left">View Details</span>
-                <span class="pull-right"
-                  ><i class="fa fa-arrow-circle-right"></i
-                ></span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-          </div>
-
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-6">
-                  <h2>Savings Balance:</h2>
-                </div>
-                <div class="col-xs-6 text-right">
-                  <h1>
-                    <i class="fa fa-usd" aria-hidden="true"></i>
-                    <span th:text="${savingsAccount.accountBalance}">...</span>
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <a th:href="@{/account/savingsAccount}">
-              <div class="panel-footer">
-                <span class="pull-left">View Details</span>
-                <span class="pull-right"
-                  ><i class="fa fa-arrow-circle-right"></i
-                ></span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-          <div class="panel panel-yellow">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fa fa-credit-card fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div>Deposit</div>
-                </div>
-              </div>
-            </div>
-            <a th:href="@{/account/deposit}">
-              <div class="panel-footer">
-                <span class="pull-left">Go to Deposit</span>
-                <span class="pull-right"
-                  ><i class="fa fa-arrow-circle-right"></i
-                ></span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-          <div class="panel panel-red">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fa fa-money fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div>Withdraw</div>
-                </div>
-              </div>
-            </div>
-            <a th:href="@{/account/withdraw}">
-              <div class="panel-footer">
-                <span class="pull-left">Go to Withdrawal</span>
-                <span class="pull-right"
-                  ><i class="fa fa-arrow-circle-right"></i
-                ></span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
+          <div class="mt-4 flex md:mt-0 md:ml-4">
+            <span class="ml-3 shadow-sm rounded-md">
+              <a th:href="@{/user/profile}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-blue-200 transition duration-150 ease-in-out">
+                <i class="fas fa-user-circle mr-2"></i>
+                View Profile
+              </a>
+            </span>
           </div>
         </div>
       </div>
-      <!-- /.row -->
+      
+      <!-- Account Balances -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Primary Account -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="px-4 py-5 sm:px-6 bg-blue-50 border-b border-blue-100">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg leading-6 font-medium text-blue-800">
+                <i class="fas fa-landmark mr-2"></i>
+                Primary Account
+              </h3>
+              <div class="text-2xl font-bold text-blue-900">
+                <span>$</span>
+                <span th:text="${primaryAccount.accountBalance}">0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 py-4 sm:px-6">
+            <div class="mt-1 flex justify-between items-center">
+              <p class="text-sm text-gray-500">
+                <span class="font-medium text-gray-700">Account Number:</span>
+                <span th:text="${primaryAccount.accountNumber}">0000000000</span>
+              </p>
+              <a th:href="@{/account/primaryAccount}" class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                View Details
+                <i class="fas fa-chevron-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Savings Account -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="px-4 py-5 sm:px-6 bg-green-50 border-b border-green-100">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg leading-6 font-medium text-green-800">
+                <i class="fas fa-piggy-bank mr-2"></i>
+                Savings Account
+              </h3>
+              <div class="text-2xl font-bold text-green-900">
+                <span>$</span>
+                <span th:text="${savingsAccount.accountBalance}">0.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 py-4 sm:px-6">
+            <div class="mt-1 flex justify-between items-center">
+              <p class="text-sm text-gray-500">
+                <span class="font-medium text-gray-700">Account Number:</span>
+                <span th:text="${savingsAccount.accountNumber}">0000000000</span>
+              </p>
+              <a th:href="@{/account/savingsAccount}" class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                View Details
+                <i class="fas fa-chevron-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Banking Operations -->
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Deposit -->
+        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-300">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                <i class="fas fa-plus-circle text-yellow-600 text-2xl"></i>
+              </div>
+              <div class="ml-5 w-0 flex-1">
+                <dl>
+                  <dt class="text-lg font-medium text-gray-900 truncate">
+                    Deposit
+                  </dt>
+                  <dd>
+                    <div class="text-sm text-gray-500">
+                      Add funds to your accounts
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-4 sm:px-6">
+            <div class="text-sm">
+              <a th:href="@{/account/deposit}" class="font-medium text-blue-600 hover:text-blue-500 flex justify-between items-center">
+                Go to Deposit
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Withdraw -->
+        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-300">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 bg-red-100 rounded-md p-3">
+                <i class="fas fa-minus-circle text-red-600 text-2xl"></i>
+              </div>
+              <div class="ml-5 w-0 flex-1">
+                <dl>
+                  <dt class="text-lg font-medium text-gray-900 truncate">
+                    Withdraw
+                  </dt>
+                  <dd>
+                    <div class="text-sm text-gray-500">
+                      Withdraw funds from your accounts
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-4 sm:px-6">
+            <div class="text-sm">
+              <a th:href="@{/account/withdraw}" class="font-medium text-blue-600 hover:text-blue-500 flex justify-between items-center">
+                Go to Withdraw
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Transfer -->
+        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-300">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                <i class="fas fa-exchange-alt text-purple-600 text-2xl"></i>
+              </div>
+              <div class="ml-5 w-0 flex-1">
+                <dl>
+                  <dt class="text-lg font-medium text-gray-900 truncate">
+                    Transfer
+                  </dt>
+                  <dd>
+                    <div class="text-sm text-gray-500">
+                      Transfer funds between accounts
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-4 sm:px-6">
+            <div class="text-sm">
+              <a th:href="@{/transfer/betweenAccounts}" class="font-medium text-blue-600 hover:text-blue-500 flex justify-between items-center">
+                Go to Transfer
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
+    <!-- Footer -->
+    <footer class="bg-white mt-12 py-6 border-t">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-sm text-gray-500">
+          &copy; 2023 Online Banking System. All rights reserved.
+        </p>
+      </div>
+    </footer>
 
     <div th:replace="common/header :: body-bottom-scripts" />
   </body>

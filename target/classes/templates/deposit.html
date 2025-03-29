@@ -1,41 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header"/>
-<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body class="bg-gray-50">
 <head th:replace="common/header :: navbar"/>
-<div class="container main">
-    <div class="row">
-        <div class="col-md-6">
-            <form th:action="@{/account/deposit}" method="post">
-                <div class="form-group" >
-                    <label for="accountType">1. Please select the account you would like to deposit:</label>
-                    <select class="form-control" th:value="${accountType}" name="accountType" id="accountType" required="required" autofocus="autofocus">
-                        <option disabled="disabled" selected="selected"> -- select your account -- </option>
-                        <option>Primary</option>
-                        <option>Savings</option>
-                    </select>
-                    <br />
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-gray-900">Deposit Funds</h1>
+        <p class="mt-2 text-sm text-gray-600">Add money to your account securely and instantly</p>
+    </div>
+    
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <form th:action="@{/account/deposit}" method="post" class="space-y-8">
+                <!-- Account Type Selection -->
+                <div>
+                    <label for="accountType" class="block text-sm font-medium text-gray-700">
+                        <span class="flex items-center">
+                            <span class="bg-blue-100 text-blue-800 font-semibold px-3 py-1 rounded-full text-xs mr-2">Step 1</span>
+                            Select the account for deposit
+                        </span>
+                    </label>
+                    <div class="mt-2">
+                        <select 
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" 
+                            th:value="${accountType}" 
+                            name="accountType" 
+                            id="accountType" 
+                            required
+                            autofocus>
+                            <option disabled="disabled" selected="selected"> -- select your account -- </option>
+                            <option>Primary</option>
+                            <option>Savings</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>2. Please specify the amount you would like to deposit: </label>
-                    <span class="input-group-addon">Amount $</span>
-                    <input th:value="${amount}" type="text" name="amount" id="amount" class="form-control" aria-label="Amount (to the nearest dollar)"/>
+                <!-- Amount Input -->
+                <div>
+                    <label for="amount" class="block text-sm font-medium text-gray-700">
+                        <span class="flex items-center">
+                            <span class="bg-blue-100 text-blue-800 font-semibold px-3 py-1 rounded-full text-xs mr-2">Step 2</span>
+                            Specify deposit amount
+                        </span>
+                    </label>
+                    <div class="mt-2 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">$</span>
+                        </div>
+                        <input 
+                            th:value="${amount}" 
+                            type="text" 
+                            name="amount" 
+                            id="amount" 
+                            class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" 
+                            placeholder="0.00" 
+                            aria-label="Amount (to the nearest dollar)" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">USD</span>
+                        </div>
+                    </div>
                 </div>
 
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Deposit</button>
+                <div>
+                    <button 
+                        type="submit" 
+                        class="w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-money-bill-wave mr-2"></i>
+                        Complete Deposit
+                    </button>
+                </div>
             </form>
-
-            <div class="col-md-6">
-            </div>
         </div>
     </div>
+    
+    <!-- Go Back Button -->
+    <div class="mt-4">
+        <a 
+            href="/userFront" 
+            class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
 </div>
-
 
 <div th:replace="common/header :: body-bottom-scripts"/>
 

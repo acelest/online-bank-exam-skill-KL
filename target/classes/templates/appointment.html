@@ -1,61 +1,204 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header"/>
-<body roleId="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body class="bg-gray-50">
 <head th:replace="common/header :: navbar"/>
-<div class="container main">
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Schedule An Appointment</h3>
-            <form th:action="@{/appointment/create}" method="post" id="appointmentForm">
-                <input type="hidden" name="id" th:value="${appointment.id}"/>
 
-                <div class="form-group">
-                    <label for="dateString">Pick a Date and Time:</label>
-                    <div class="input-append date form_datetime input-group" data-date="2016-10-21T15:25:00Z">
-                        <input class="form-control" type="text" value="" readonly="readonly"
-                               th:value="${dateString}" name="dateString"
-                               id="dateString" required="required"/>
-                        <span class="input-group-addon"><i class="fa fa-times" aria-hidden="true"></i></span>
-                        <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Planifier un rendez-vous</h1>
+        <p class="mt-2 text-sm text-gray-600">Réservez un moment avec nos conseillers financiers</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Formulaire de prise de rendez-vous -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-blue-50 to-blue-100">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <i class="fas fa-calendar-check text-blue-500 mr-2"></i>
+                    Détails du rendez-vous
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Veuillez remplir tous les champs pour prendre rendez-vous
+                </p>
+            </div>
+            <div class="px-4 py-5 sm:p-6">
+                <form th:action="@{/appointment/create}" method="post" id="appointmentForm" class="space-y-6">
+                    <input type="hidden" name="id" th:value="${appointment.id}"/>
+                    
+                    <!-- Date et heure -->
+                    <div>
+                        <label for="dateString" class="block text-sm font-medium text-gray-700">
+                            Date et heure du rendez-vous
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-calendar-alt text-gray-400"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" 
+                                value="" 
+                                readonly="readonly"
+                                th:value="${dateString}" 
+                                name="dateString"
+                                id="dateString" 
+                                required 
+                                data-date="2016-10-21T15:25:00Z"
+                            />
+                            <div class="absolute inset-y-0 right-0 flex">
+                                <span class="inline-flex items-center px-3 border-l border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">Cliquez pour sélectionner une date et une heure</p>
+                    </div>
+                    
+                    <!-- Emplacement -->
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700">
+                            Emplacement
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-map-marker-alt text-gray-400"></i>
+                            </div>
+                            <select 
+                                class="block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" 
+                                th:value="${appointment.location}" 
+                                name="location" 
+                                id="location" 
+                                required
+                            >
+                                <option disabled="disabled" selected="selected"> -- sélectionnez un emplacement -- </option>
+                                <option>KL</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Notes -->
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">
+                            Notes et commentaires
+                        </label>
+                        <div class="mt-1">
+                            <textarea 
+                                rows="4" 
+                                th:value="${appointment.description}" 
+                                class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" 
+                                name="description" 
+                                id="description" 
+                                placeholder="Décrivez le but de votre rendez-vous"
+                            ></textarea>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">Indiquez si vous avez des demandes ou besoins spécifiques</p>
+                    </div>
+                    
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+                    
+                    <div class="pt-5">
+                        <div class="flex justify-end">
+                            <a th:href="@{/userFront}" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Annuler
+                            </a>
+                            <button 
+                                type="button" 
+                                id="submitAppointment" 
+                                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <i class="fas fa-check mr-2"></i>
+                                Confirmer le rendez-vous
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Illustration et informations supplémentaires -->
+        <div class="lg:flex lg:flex-col lg:justify-between hidden lg:block">
+            <div>
+                <!-- Image -->
+                <div class="relative h-64 overflow-hidden rounded-xl mb-6">
+                    <img src="https://img.freepik.com/free-vector/business-appointment-scheduler-abstract-concept-illustration_335657-3953.jpg" 
+                         alt="Appointment Illustration" 
+                         class="w-full h-full object-cover" />
+                </div>
+                
+                <!-- Cards d'information -->
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                            Pourquoi prendre rendez-vous?
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            Rencontrez nos experts financiers pour des conseils personnalisés sur vos investissements, prêts, ou planification financière.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-clock text-green-500 mr-2"></i>
+                            Heures d'ouverture
+                        </h3>
+                        <div class="mt-2 text-sm text-gray-600 grid grid-cols-2 gap-1">
+                            <div>Lundi - Vendredi:</div><div class="font-medium">8h00 - 17h00</div>
+                            <div>Samedi:</div><div class="font-medium">9h00 - 14h00</div>
+                            <div>Dimanche:</div><div class="font-medium">Fermé</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-purple-500">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <i class="fas fa-phone-alt text-purple-500 mr-2"></i>
+                            Besoin d'aide?
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            Appelez notre service client au <span class="font-medium">+1 (123) 456-7890</span> ou envoyez un email à <span class="font-medium">support@banking.com</span>
+                        </p>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="location">Pick a location:</label>
-                    <select class="form-control" th:value="${appointment.location}" name="location" id="location"
-                            >
-                        <option disabled="disabled" selected="selected" > -- select the location --</option>
-                        <option>Dhaka</option>
-                        <option>Gazipur</option>
-                        <option>Barisal</option>
-                        <option>Chittagong</option>
-                        <option>Mymensingh</option>
-                        <option>Rajshahi</option>
-                        <option>Rangpur</option>
-                        <option>Sylhet</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">Notes:</label>
-                    <textarea th:value="${appointment.description}" class="form-control" name="description" id="description" placeholder="Description" ></textarea>
-                </div>
-
-
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-
-                <a class="btn btn-primary" id="submitAppointment">Submit Scheduling</a>
-            </form>
-
-            <div class="col-md-6">
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-6 text-center text-sm text-gray-500">
+                &copy; 2023 Online Banking System. Tous droits réservés.<br />
+                Développé par <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
             </div>
         </div>
     </div>
-    <br/>
+    
+    <!-- Mobile footer -->
+    <div class="mt-8 lg:hidden text-center text-sm text-gray-500">
+        &copy; 2023 Online Banking System. Tous droits réservés.<br />
+        Développé par <a href="https://github.com/acelest" class="text-blue-600 hover:underline">Aubin Djou</a>
+    </div>
 </div>
+
+<!-- Custom date picker styling -->
+<style>
+.datetimepicker {
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+.datetimepicker table {
+    border-spacing: 2px;
+}
+.datetimepicker table td.day:hover {
+    background: #e5edff;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+.datetimepicker table td.active {
+    background: #3b82f6;
+    color: white;
+    border-radius: 0.25rem;
+}
+</style>
 
 <div th:replace="common/header :: body-bottom-scripts"/>
 

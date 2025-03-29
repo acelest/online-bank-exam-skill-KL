@@ -50,33 +50,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**",
-            "/api/auth/**"  // Endpoint pour l'authentification
+            "/webjars/**"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers(PUBLIC_MATCHERS)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .authorizeRequests().
+//                antMatchers("/**").
+                antMatchers(PUBLIC_MATCHERS).
+                permitAll().anyRequest().authenticated();
+
+        http
+                .csrf().disable().cors().disable()
+                .formLogin().failureUrl("/index?error").defaultSuccessUrl("/userFront").loginPage("/index").permitAll()
                 .and()
-                .csrf().disable()
-                .cors()
-                .and()
-                .formLogin()
-                .failureUrl("/index?error")
-                .defaultSuccessUrl("/userFront")
-                .loginPage("/index")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/index?logout")
-                .deleteCookies("remember-me")
-                .permitAll()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index?logout").deleteCookies("remember-me").permitAll()
                 .and()
                 .rememberMe();
     }
